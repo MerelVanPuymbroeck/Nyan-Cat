@@ -1,5 +1,5 @@
 window.onload=function(){
-var btnBack = document.getElementById('rain');
+var btnBack = document.getElementById('button');
 btnBack.addEventListener('click',function() {
     document.body.classList.toggle('BgClass');
 });
@@ -17,43 +17,59 @@ function settime(){
 			},1000);
 		}
 
-    var canvas = document.getElementById("canvas");
-    canvas.width = window.innerWidth;
-    canvas.height = window. innerHeight;
-    var context = canvas.getContext("2d");
-    var img = new Image ();
-    img.src = "NyanCat.png";
-    var NoOfCats = 20;
-    var Cats = [];
-    for (var i=0; i<NoOfCats; i++) {
-      var x = Math.floor (Math.random()* canvas.width);
-      var y = Math.floor (Math.random()* canvas.height);
-      heart [i] = new Cats (x,y);
-    }
-
-
-      function Cats (x,y){
-        this.x = x;
-        this.y = y;
-
-        this.show = function() {
-        context.drawImage(img,this.x, this.y, 10,10);
-        }
-      }
-
-
-      function draw() {
-      context.fillStyle = "";
-      context.fillRect (0,0,canvas.width, canvas.height);
-      for (var i=0; i<NoOfCats;i++)
-    }
-      Cat[i].show ();
-    }
-  }
-
-      function update () {
-        draw();
-        window.requestAnimationFrame(update);
-      }
-
-      update ();
+    var button = document.getElementById("button");
+           var c = document.getElementById("canvas");
+           var ctx = c.getContext("2d");
+           canvas.width = window.innerWidth;
+           canvas.height = window.innerHeight;
+           var RandomNumberOfNyanCats = getRandomInt(50);
+           var NumberOfNyanCats = RandomNumberOfNyanCats;
+           var NyanCats = [];
+           var img = new Image;
+           var x = 0;
+           var y = 0;
+           function getRandomInt(max) {
+               return Math.floor(Math.random() * Math.floor(max));
+           }
+           img.src = "NyanCat.png";
+           for (let i = 0; i < NumberOfNyanCats; i++) {
+               NyanCats[i] = new NyanCat(randomx, y);
+               var randomx = getRandomInt(canvas.width);
+           }
+           function NyanCat(x, y) {
+               this.x = x;
+               this.y = y;
+               this.show = function() {
+                   ctx.drawImage(img, this.x, this.y, 150, 125);
+               }
+               this.fall = function(speed) {
+                   this.speed = speed;
+                   this.y += this.speed;
+                   this.x += this.speed;
+                   if (this.y > canvas.height || this.x > canvas.width) {
+                       this.y = 0;
+                       var randomx = getRandomInt(canvas.width);
+                       this.x = randomx;
+                   }
+               }
+           }
+           function draw() {
+               var background = new Image();
+               background.src = "Achtergrond2.png";
+               background.onload = function() {
+                   ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
+               }
+               for (let i = 0; i < NumberOfNyanCats; i++) {
+                   NyanCats[i].show();
+                   speed = getRandomInt(5);
+                   NyanCats[i].fall(speed);
+               }
+           }
+           function update() {
+               draw();
+               window.requestAnimationFrame(update);
+           }
+           function clearrect() {
+               button.style.display = 'block';
+               canvas.style.display = 'none';
+           }
